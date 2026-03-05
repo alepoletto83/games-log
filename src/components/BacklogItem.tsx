@@ -4,7 +4,6 @@ import { IconTrash } from '@tabler/icons-react';
 interface BacklogItemProps {
   title: string;
   thumbnailUrl: string;
-  // Callback para você plugar a função de remover do Zustand
   onRemoveClick: () => void;
 }
 
