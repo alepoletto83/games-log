@@ -4,7 +4,6 @@ interface GameCardProps {
   title: string;
   imageUrl: string;
   rating: number;
-  // Callback que você vai plugar na sua lógica do Zustand depois
   onAddClick: () => void;
 }
 
