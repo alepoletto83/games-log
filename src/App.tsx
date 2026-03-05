@@ -28,13 +28,12 @@ export default function App() {
 
   return (
     <Container size="xl" py="xl">
-      {/* Header do App */}
+      {/* Header */}
       <Group mb="xl">
         <IconDeviceGamepad2 size={40} color="#7950f2" />
         <Title order={1}>Gamer Log</Title>
       </Group>
 
-      {/* Grid Principal dividindo a tela */}
       <Grid gutter="xl">
         {/* ==========================================
             LADO ESQUERDO: Busca e Resultados
