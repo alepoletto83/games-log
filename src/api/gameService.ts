@@ -1,31 +1,39 @@
 import { apiClient } from './apiClient';
 
-// Tipagem básica focada no que a UI vai precisar
 export interface Game {
   id: number;
   name: string;
-  background_image: string; // A RAWG manda as imagens das capas aqui
+  background_image: string;
   rating: number;
 }
 
-// A RAWG sempre retorna os dados dentro de um array chamado "results"
-interface FetchGamesResponse {
+export interface GameDetail extends Game {
+  description: string;
+  genres: { id: number; name: string }[];
+  platforms: { platform: { id: number; name: string } }[];
+  website: string;
+}
+
+interface GetGamesResponse {
   results: Game[];
 }
 
 export const getGames = async (): Promise<Game[]> => {
-  // Olha como fica limpo: só pedimos a rota '/games'
-  const response = await apiClient.get<FetchGamesResponse>('/games');
+  const response = await apiClient.get<GetGamesResponse>('/games');
 
-  // Já retornamos direto o array de jogos para facilitar a vida do front-end
   return response.data.results;
 };
 
+export const getGameByID = async (id: number): Promise<GameDetail> => {
+  const response = await apiClient.get<GameDetail>(`/games/${id}`);
+  return response.data;
+};
+
 export const searchGames = async (query: string): Promise<Game[]> => {
-  const response = await apiClient.get<FetchGamesResponse>('/games', {
+  const response = await apiClient.get<GetGamesResponse>('/games', {
     params: {
       search: query,
-      page_size: 10, // Boa prática: limitar a 10 resultados para não pesar a tela
+      page_size: 10,
     },
   });
 

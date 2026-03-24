@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router';
 import {
   Container,
   Grid,
@@ -11,13 +12,17 @@ import {
   Loader,
 } from '@mantine/core';
 import { IconSearch, IconDeviceGamepad2 } from '@tabler/icons-react';
-import { GameCard } from './components/GameCard';
-import { BacklogItem } from './components/BacklogItem';
-import { useGameSearch } from './hooks/useGameSearch';
+import { GameCard } from '../components/GameCard';
+import { BacklogItem } from '../components/BacklogItem';
+import { useGameSearch } from '../hooks/useGameSearch';
 import { useState } from 'react';
-import { useBacklogStore } from './hooks/useBacklogStore';
+import { useBacklogStore } from '../hooks/useBacklogStore';
 
-export default function App() {
+export const Route = createFileRoute('/')({
+  component: Homepage,
+});
+
+function Homepage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchInput, setSearchInput] = useState('');
   const { addGame, gameBacklog, removeGame } = useBacklogStore();
