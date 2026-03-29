@@ -44,23 +44,27 @@ function Homepage() {
             LADO ESQUERDO: Busca e Resultados
             ========================================== */}
         <Grid.Col span={{ base: 12, md: 8 }}>
-          <Group mb="lg" align="flex-end">
-            <TextInput
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.currentTarget.value)} // <-- Atualiza o texto
-              placeholder="Ex: The Witcher 3, Elden Ring..."
-              style={{ flex: 1 }}
-              size="md"
-            />
-            <Button
-              size="md"
-              onClick={() => {
-                setSearchTerm(searchInput);
-              }}
-              leftSection={<IconSearch size={18} />}>
-              Buscar
-            </Button>
-          </Group>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSearchTerm(searchInput);
+            }}>
+            <Group mb="lg" align="flex-end">
+              <TextInput
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.currentTarget.value)}
+                placeholder="Ex: The Witcher 3, Elden Ring..."
+                style={{ flex: 1 }}
+                size="md"
+              />
+              <Button
+                type="submit"
+                size="md"
+                leftSection={<IconSearch size={18} />}>
+                Buscar
+              </Button>
+            </Group>
+          </form>
 
           {isLoading && <Loader color="blue" />}
 
