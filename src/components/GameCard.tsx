@@ -1,6 +1,8 @@
 import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
+import { Link } from '@tanstack/react-router';
 
 interface GameCardProps {
+  id: number;
   title: string;
   imageUrl: string;
   rating: number;
@@ -8,6 +10,7 @@ interface GameCardProps {
 }
 
 export function GameCard({
+  id,
   title,
   imageUrl,
   rating,
@@ -15,22 +18,24 @@ export function GameCard({
 }: GameCardProps) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Card.Section>
-        <Image
-          src={imageUrl || 'https://placehold.co/600x400?text=Sem+Imagem'}
-          height={160}
-          alt={title}
-        />
-      </Card.Section>
+      <Link to="/game/$id" params={{ id: String(id) }} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Card.Section>
+          <Image
+            src={imageUrl || 'https://placehold.co/600x400?text=Sem+Imagem'}
+            height={160}
+            alt={title}
+          />
+        </Card.Section>
 
-      <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500} lineClamp={1} style={{ flex: 1 }}>
-          {title}
-        </Text>
-        <Badge color="violet" variant="light">
-          Nota: {rating}
-        </Badge>
-      </Group>
+        <Group justify="space-between" mt="md" mb="xs">
+          <Text fw={500} lineClamp={1} style={{ flex: 1 }}>
+            {title}
+          </Text>
+          <Badge color="violet" variant="light">
+            Nota: {rating}
+          </Badge>
+        </Group>
+      </Link>
 
       <Button
         variant="light"

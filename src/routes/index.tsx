@@ -69,6 +69,7 @@ function Homepage() {
               {games.map((game) => (
                 <Grid.Col span={{ base: 12, sm: 6 }} key={game.id}>
                   <GameCard
+                    id={game.id}
                     title={game.name}
                     imageUrl={game.background_image}
                     rating={game.rating}
