@@ -9,6 +9,7 @@ db.run(`
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     background_image TEXT,
+    rating REAL,
     status TEXT NOT NULL DEFAULT 'playing',
     user_rating REAL,
     description TEXT,
@@ -26,12 +27,13 @@ const app = new Elysia()
     "/backlog",
     ({ body }) => {
       db.prepare(`
-        INSERT OR IGNORE INTO backlog (id, name, background_image)
-        VALUES ($id, $name, $background_image)
+        INSERT OR IGNORE INTO backlog (id, name, background_image, rating)
+        VALUES ($id, $name, $background_image, $rating)
       `).run({
         $id: body.id,
         $name: body.name,
         $background_image: body.background_image,
+        $rating: body.rating,
       });
       return db.query("SELECT * FROM backlog WHERE id = ?").get(body.id);
     },
@@ -40,6 +42,7 @@ const app = new Elysia()
         id: t.Number(),
         name: t.String(),
         background_image: t.String(),
+        rating: t.Number(),
       }),
     }
   )

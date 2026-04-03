@@ -14,7 +14,7 @@ import {
 import { IconArrowLeft, IconWorld } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { getGameByID } from '../api/gameService';
-import { useBacklogStore } from '../hooks/useBacklogStore';
+import { useBacklog } from '../hooks/useBacklog';
 
 export const Route = createFileRoute('/game/$id')({
   component: GameDetailPage,
@@ -23,7 +23,7 @@ export const Route = createFileRoute('/game/$id')({
 function GameDetailPage() {
   const { id } = Route.useParams();
   const gameId = Number(id);
-  const { addGame, gameBacklog, removeGame } = useBacklogStore();
+  const { addGame, gameBacklog, removeGame } = useBacklog();
 
   const { data: game, isLoading } = useQuery({
     queryKey: ['game', gameId],

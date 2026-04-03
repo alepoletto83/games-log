@@ -16,7 +16,7 @@ import { GameCard } from '../components/GameCard';
 import { BacklogItem } from '../components/BacklogItem';
 import { useGameSearch } from '../hooks/useGameSearch';
 import { useState } from 'react';
-import { useBacklogStore } from '../hooks/useBacklogStore';
+import { useBacklog } from '../hooks/useBacklog';
 
 export const Route = createFileRoute('/')({
   component: Homepage,
@@ -25,7 +25,7 @@ export const Route = createFileRoute('/')({
 function Homepage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  const { addGame, gameBacklog, removeGame } = useBacklogStore();
+  const { addGame, gameBacklog, removeGame } = useBacklog();
 
   const { isLoading, data } = useGameSearch(searchTerm);
 
@@ -105,7 +105,7 @@ function Homepage() {
               ))}
             </Stack>
 
-            {games.length === 0 && (
+            {gameBacklog.length === 0 && (
               <Text c="dimmed" size="sm">
                 Nenhum jogo adicionado ainda.
               </Text>
