@@ -89,7 +89,7 @@ function Homepage() {
             LADO DIREITO: Sidebar do Backlog 
             ========================================== */}
         <Grid.Col span={{ base: 12, md: 4 }}>
-          <Card shadow="sm" padding="lg" radius="md" withBorder bg="dark.8">
+          <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Title order={3} mb="md">
               Meu Backlog ({gameBacklog.length})
             </Title>
