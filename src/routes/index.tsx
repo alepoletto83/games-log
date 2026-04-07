@@ -98,6 +98,7 @@ function Homepage() {
               {gameBacklog.map((game) => (
                 <BacklogItem
                   key={game.id}
+                  id={game.id}
                   title={game.name}
                   thumbnailUrl={game.background_image}
                   onRemoveClick={() => removeGame(game.id)}

@@ -46,6 +46,39 @@ const app = new Elysia()
       }),
     }
   )
+  .get("/backlog/:id", ({ params }) => {
+    const game = db.query("SELECT * FROM backlog WHERE id = ?").get(Number(params.id));
+    if (!game) throw new Error("Game not found");
+    return game;
+  })
+  .put(
+    "/backlog/:id",
+    ({ params, body }) => {
+      db.prepare(`
+        UPDATE backlog
+        SET status = $status,
+            user_rating = $user_rating,
+            description = $description,
+            finished_at = $finished_at
+        WHERE id = $id
+      `).run({
+        $id: Number(params.id),
+        $status: body.status,
+        $user_rating: body.user_rating,
+        $description: body.description,
+        $finished_at: body.finished_at,
+      });
+      return db.query("SELECT * FROM backlog WHERE id = ?").get(Number(params.id));
+    },
+    {
+      body: t.Object({
+        status: t.String(),
+        user_rating: t.Optional(t.Nullable(t.Number())),
+        description: t.Optional(t.Nullable(t.String())),
+        finished_at: t.Optional(t.Nullable(t.String())),
+      }),
+    }
+  )
   .delete("/backlog/:id", ({ params }) => {
     db.run("DELETE FROM backlog WHERE id = ?", [Number(params.id)]);
     return { ok: true };

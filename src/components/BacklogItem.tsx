@@ -1,13 +1,16 @@
 import { Group, Image, Text, ActionIcon } from '@mantine/core';
-import { IconTrash } from '@tabler/icons-react';
+import { IconTrash, IconEdit } from '@tabler/icons-react';
+import { Link } from '@tanstack/react-router';
 
 interface BacklogItemProps {
+  id: number;
   title: string;
   thumbnailUrl: string;
   onRemoveClick: () => void;
 }
 
 export function BacklogItem({
+  id,
   title,
   thumbnailUrl,
   onRemoveClick,
@@ -26,13 +29,25 @@ export function BacklogItem({
         </Text>
       </Group>
 
-      <ActionIcon
-        color="red"
-        variant="subtle"
-        onClick={onRemoveClick}
-        title="Remover jogo">
-        <IconTrash size={18} />
-      </ActionIcon>
+      <Group gap={4} wrap="nowrap">
+        <ActionIcon
+          component={Link}
+          to="/backlog/$id"
+          params={{ id: String(id) }}
+          color="violet"
+          variant="subtle"
+          title="Editar jogo"
+        >
+          <IconEdit size={18} />
+        </ActionIcon>
+        <ActionIcon
+          color="red"
+          variant="subtle"
+          onClick={onRemoveClick}
+          title="Remover jogo">
+          <IconTrash size={18} />
+        </ActionIcon>
+      </Group>
     </Group>
   );
 }
