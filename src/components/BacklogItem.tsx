@@ -30,16 +30,14 @@ export function BacklogItem({
       </Group>
 
       <Group gap={4} wrap="nowrap">
-        <ActionIcon
-          component={Link}
-          to="/backlog/$id"
-          params={{ id: String(id) }}
-          color="violet"
-          variant="subtle"
-          title="Editar jogo"
-        >
-          <IconEdit size={18} />
-        </ActionIcon>
+        <Link to="/backlog/$id" params={{ id: String(id) }}>
+          <ActionIcon
+            color="violet"
+            variant="subtle"
+            title="Editar jogo">
+            <IconEdit size={18} />
+          </ActionIcon>
+        </Link>
         <ActionIcon
           color="red"
           variant="subtle"
