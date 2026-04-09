@@ -1,7 +1,7 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import { ActionIcon, Container, Group } from '@mantine/core';
-import { IconSun, IconMoon } from '@tabler/icons-react';
+import { ActionIcon, Button, Container, Group } from '@mantine/core';
+import { IconSun, IconMoon, IconTrophy } from '@tabler/icons-react';
 import { useThemeStore } from '../store/useThemeStore';
 
 function RootComponent() {
@@ -11,6 +11,15 @@ function RootComponent() {
     <>
       <Container size="xl" py="xl">
         <Group justify="flex-end" mb="md">
+          <Button
+            component={Link}
+            to="/ranking"
+            variant="light"
+            color="violet"
+            leftSection={<IconTrophy size={18} />}
+          >
+            Ranking
+          </Button>
           <ActionIcon
             variant="default"
             size="lg"

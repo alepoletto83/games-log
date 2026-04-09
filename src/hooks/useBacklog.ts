@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getBacklog, addToBacklog, removeFromBacklog } from '../api/backlogService';
 import type { Game } from '../api/gameService';
@@ -11,6 +12,19 @@ export function useBacklog() {
     queryKey: BACKLOG_KEY,
     queryFn: getBacklog,
   });
+
+  const activeBacklog = useMemo(
+    () => gameBacklog.filter((g) => g.status !== 'finished'),
+    [gameBacklog],
+  );
+
+  const finishedGames = useMemo(
+    () =>
+      [...gameBacklog]
+        .filter((g) => g.status === 'finished')
+        .sort((a, b) => (b.user_rating ?? 0) - (a.user_rating ?? 0)),
+    [gameBacklog],
+  );
 
   const addMutation = useMutation({
     mutationFn: addToBacklog,
@@ -55,6 +69,8 @@ export function useBacklog() {
 
   return {
     gameBacklog,
+    activeBacklog,
+    finishedGames,
     isLoadingBacklog: isLoading,
     addGame: (game: Game) => addMutation.mutate(game),
     removeGame: (gameId: number) => removeMutation.mutate(gameId),

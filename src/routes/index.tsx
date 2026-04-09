@@ -25,7 +25,7 @@ export const Route = createFileRoute('/')({
 function Homepage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  const { addGame, gameBacklog, removeGame } = useBacklog();
+  const { addGame, activeBacklog, removeGame } = useBacklog();
 
   const { isLoading, data } = useGameSearch(searchTerm);
 
@@ -91,11 +91,11 @@ function Homepage() {
         <Grid.Col span={{ base: 12, md: 4 }}>
           <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Title order={3} mb="md">
-              Meu Backlog ({gameBacklog.length})
+              Meu Backlog ({activeBacklog.length})
             </Title>
 
             <Stack gap="sm">
-              {gameBacklog.map((game) => (
+              {activeBacklog.map((game) => (
                 <BacklogItem
                   key={game.id}
                   id={game.id}
@@ -106,7 +106,7 @@ function Homepage() {
               ))}
             </Stack>
 
-            {gameBacklog.length === 0 && (
+            {activeBacklog.length === 0 && (
               <Text c="dimmed" size="sm">
                 Nenhum jogo adicionado ainda.
               </Text>
