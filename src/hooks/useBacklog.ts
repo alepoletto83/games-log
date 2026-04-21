@@ -18,9 +18,14 @@ export function useBacklog() {
     [gameBacklog],
   );
 
+  const playingGames = useMemo(
+    () => gameBacklog.filter((g) => g.status === 'playing'),
+    [gameBacklog],
+  );
+
   const finishedGames = useMemo(
     () =>
-      [...gameBacklog]
+      gameBacklog
         .filter((g) => g.status === 'finished')
         .sort((a, b) => (b.user_rating ?? 0) - (a.user_rating ?? 0)),
     [gameBacklog],
@@ -70,6 +75,7 @@ export function useBacklog() {
   return {
     gameBacklog,
     activeBacklog,
+    playingGames,
     finishedGames,
     isLoadingBacklog: isLoading,
     addGame: (game: Game) => addMutation.mutate(game),

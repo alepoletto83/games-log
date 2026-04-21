@@ -9,6 +9,7 @@ import {
   Badge,
   Stack,
   Button,
+  Skeleton,
 } from '@mantine/core';
 import { IconArrowLeft, IconTrophy } from '@tabler/icons-react';
 import { useBacklog } from '../hooks/useBacklog';
@@ -18,7 +19,7 @@ export const Route = createFileRoute('/ranking')({
 });
 
 function RankingPage() {
-  const { finishedGames } = useBacklog();
+  const { finishedGames, isLoadingBacklog } = useBacklog();
 
   return (
     <Container size="md" py="xl">
@@ -34,11 +35,29 @@ function RankingPage() {
       </Button>
 
       <Group mb="xl">
-        <IconTrophy size={36} color="#7950f2" />
+        <IconTrophy size={36} color="var(--mantine-color-violet-6)" />
         <Title order={1}>My Ranking</Title>
       </Group>
 
-      {finishedGames.length === 0 && (
+      {isLoadingBacklog && (
+        <Stack gap="md">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <Card key={i} shadow="sm" padding="md" radius="md" withBorder>
+              <Group wrap="nowrap">
+                <Skeleton height={28} width={40} />
+                <Skeleton height={80} width={80} radius="md" />
+                <Stack gap={8} style={{ flex: 1 }}>
+                  <Skeleton height={18} width="60%" />
+                  <Skeleton height={14} width="90%" />
+                </Stack>
+                <Skeleton height={32} width={64} radius="xl" />
+              </Group>
+            </Card>
+          ))}
+        </Stack>
+      )}
+
+      {!isLoadingBacklog && finishedGames.length === 0 && (
         <Text c="dimmed">No finished games yet. Complete some games to see your ranking!</Text>
       )}
 
