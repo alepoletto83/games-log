@@ -14,6 +14,7 @@ import {
   Badge,
 } from '@mantine/core';
 import { IconSearch, IconDeviceGamepad2, IconPlayerPlay } from '@tabler/icons-react';
+import { useDebouncedValue } from '@tanstack/react-pacer';
 import { GameCard } from '../components/GameCard';
 import { BacklogItem } from '../components/BacklogItem';
 import { useGameSearch } from '../hooks/useGameSearch';
@@ -25,11 +26,11 @@ export const Route = createFileRoute('/')({
 });
 
 function Homepage() {
-  const [searchTerm, setSearchTerm] = useState('');
   const [searchInput, setSearchInput] = useState('');
+  const [debouncedSearch] = useDebouncedValue(searchInput, { wait: 400 });
   const { addGame, activeBacklog, playingGames, removeGame, isLoadingBacklog } = useBacklog();
 
-  const { isLoading, data } = useGameSearch(searchTerm);
+  const { isLoading, data } = useGameSearch(debouncedSearch);
 
   const games = data ?? [];
 
@@ -90,27 +91,16 @@ function Homepage() {
             LADO ESQUERDO: Busca e Resultados
             ========================================== */}
         <Grid.Col span={{ base: 12, md: 8 }}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSearchTerm(searchInput);
-            }}>
-            <Group mb="lg" align="flex-end">
-              <TextInput
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.currentTarget.value)}
-                placeholder="Ex: The Witcher 3, Elden Ring..."
-                style={{ flex: 1 }}
-                size="md"
-              />
-              <Button
-                type="submit"
-                size="md"
-                leftSection={<IconSearch size={18} />}>
-                Buscar
-              </Button>
-            </Group>
-          </form>
+          <Group mb="lg" align="flex-end">
+            <TextInput
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.currentTarget.value)}
+              placeholder="Ex: The Witcher 3, Elden Ring..."
+              leftSection={<IconSearch size={18} />}
+              style={{ flex: 1 }}
+              size="md"
+            />
+          </Group>
 
           {isLoading && (
             <Grid>

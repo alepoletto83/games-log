@@ -11,7 +11,7 @@ import {
   Loader,
   Card,
 } from '@mantine/core';
-import { IconArrowLeft, IconWorld } from '@tabler/icons-react';
+import { IconArrowLeft, IconWorld, IconCheck } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { getGameByID } from '../api/gameService';
 import { useBacklog } from '../hooks/useBacklog';
@@ -30,7 +30,9 @@ function GameDetailPage() {
     queryFn: () => getGameByID(gameId),
   });
 
-  const isInBacklog = gameBacklog.some((g) => g.id === gameId);
+  const backlogEntry = gameBacklog.find((g) => g.id === gameId);
+  const isInBacklog = !!backlogEntry;
+  const isFinished = backlogEntry?.status === 'finished';
 
   if (isLoading) {
     return (
@@ -122,20 +124,33 @@ function GameDetailPage() {
             </Button>
           )}
 
-          <Button
-            color={isInBacklog ? 'red' : 'violet'}
-            fullWidth
-            radius="md"
-            onClick={() => {
-              if (isInBacklog) {
-                removeGame(game.id);
-              } else {
-                addGame(game);
-              }
-            }}
-          >
-            {isInBacklog ? 'Remover do Backlog' : 'Adicionar ao Backlog'}
-          </Button>
+          {isFinished ? (
+            <Button
+              color="green"
+              variant="light"
+              fullWidth
+              radius="md"
+              leftSection={<IconCheck size={18} />}
+              disabled
+            >
+              Finalizado
+            </Button>
+          ) : (
+            <Button
+              color={isInBacklog ? 'red' : 'violet'}
+              fullWidth
+              radius="md"
+              onClick={() => {
+                if (isInBacklog) {
+                  removeGame(game.id);
+                } else {
+                  addGame(game);
+                }
+              }}
+            >
+              {isInBacklog ? 'Remover do Backlog' : 'Adicionar ao Backlog'}
+            </Button>
+          )}
         </Stack>
       </Card>
     </Container>
