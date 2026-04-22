@@ -28,7 +28,9 @@ export const Route = createFileRoute('/')({
 function Homepage() {
   const [searchInput, setSearchInput] = useState('');
   const [debouncedSearch] = useDebouncedValue(searchInput, { wait: 400 });
-  const { addGame, activeBacklog, playingGames, removeGame, isLoadingBacklog } = useBacklog();
+  const { addGame, activeBacklog, playingGames, finishedGames, removeGame, isLoadingBacklog } = useBacklog();
+  const finishedIds = new Set(finishedGames.map((g) => g.id));
+  const backlogIds = new Set(activeBacklog.map((g) => g.id));
 
   const { isLoading, data } = useGameSearch(debouncedSearch);
 
@@ -127,6 +129,8 @@ function Homepage() {
                     title={game.name}
                     imageUrl={game.background_image}
                     rating={game.rating}
+                    isFinished={finishedIds.has(game.id)}
+                    isInBacklog={backlogIds.has(game.id)}
                     onAddClick={() => addGame(game)}
                   />
                 </Grid.Col>

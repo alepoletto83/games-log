@@ -6,6 +6,8 @@ interface GameCardProps {
   title: string;
   imageUrl: string;
   rating: number;
+  isFinished?: boolean;
+  isInBacklog?: boolean;
   onAddClick: () => void;
 }
 
@@ -14,6 +16,8 @@ export function GameCard({
   title,
   imageUrl,
   rating,
+  isFinished = false,
+  isInBacklog = false,
   onAddClick,
 }: GameCardProps) {
   return (
@@ -37,15 +41,25 @@ export function GameCard({
         </Group>
       </Link>
 
-      <Button
-        variant="light"
-        color="violet"
-        fullWidth
-        mt="md"
-        radius="md"
-        onClick={onAddClick}>
-        Adicionar ao Backlog
-      </Button>
+      {isFinished ? (
+        <Badge color="teal" variant="light" fullWidth mt="md" size="lg">
+          Jogo finalizado
+        </Badge>
+      ) : isInBacklog ? (
+        <Badge color="violet" variant="light" fullWidth mt="md" size="lg">
+          Já no backlog
+        </Badge>
+      ) : (
+        <Button
+          variant="light"
+          color="violet"
+          fullWidth
+          mt="md"
+          radius="md"
+          onClick={onAddClick}>
+          Adicionar ao Backlog
+        </Button>
+      )}
     </Card>
   );
 }
