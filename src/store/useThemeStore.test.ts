@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, expectTypeOf, it } from 'vitest';
 import { useThemeStore } from './useThemeStore';
 
 describe('useThemeStore', () => {
@@ -20,5 +20,11 @@ describe('useThemeStore', () => {
     useThemeStore.getState().toggleColorScheme();
     useThemeStore.getState().toggleColorScheme();
     expect(useThemeStore.getState().colorScheme).toBe('dark');
+  });
+
+  it('has the expected types', () => {
+    const state = useThemeStore.getState();
+    expectTypeOf(state.colorScheme).toEqualTypeOf<'light' | 'dark'>();
+    expectTypeOf(state.toggleColorScheme).toEqualTypeOf<() => void>();
   });
 });
